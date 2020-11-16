@@ -7,7 +7,6 @@ import 'package:foodlab/screens/detail_food_page.dart';
 import 'package:foodlab/screens/navigation_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:gradient_text/gradient_text.dart';
-import 'package:overlay_support/overlay_support.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,6 +14,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  signOutUser() {
+    AuthNotifier authNotifier =
+        Provider.of<AuthNotifier>(context, listen: false);
+    if (authNotifier.user != null) {
+      signOut(authNotifier, context);
+    }
+  }
+
   @override
   void initState() {
     FoodNotifier foodNotifier =
@@ -67,13 +74,11 @@ class _HomePageState extends State<HomePage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          showAboutDialog(
-                            context: context,
-                            applicationName: 'FoodLab',
-                            applicationVersion: 'by Shivani Singh\n\nV1.0',
-                          );
+                          signOutUser();
                         },
-                        child: Icon(Icons.info_outline),
+                        child: Icon(
+                          Icons.exit_to_app,
+                        ),
                       ),
                     ],
                   )
@@ -121,11 +126,21 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                 Container(
                                   padding: EdgeInsets.only(bottom: 5, left: 10),
-                                  child: Text(
-                                    foodNotifier.foodList[index].userName,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  child: Row(
+                                    children: <Widget>[
+                                      RaisedButton(
+                                        onPressed: () {
+                                          print('clicou');
+                                        },
+                                        color: Colors.white,
+                                        child: Text(
+                                          foodNotifier.foodList[index].userName,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -177,6 +192,34 @@ class _HomePageState extends State<HomePage> {
                                         backgroundColor:
                                             Color.fromRGBO(255, 63, 111, 1),
                                       ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(bottom: 5, left: 10),
+                              child: Row(
+                                children: <Widget>[
+                                  IconButton(
+                                      icon: Icon(Icons.favorite_border,
+                                          color: Colors.red[300]),
+                                      tooltip: 'Like',
+                                      onPressed: () {
+                                        print('Like na Postagem');
+                                      }),
+                                  IconButton(
+                                      icon: Icon(Icons.edit,
+                                          color: Colors.blue[300]),
+                                      tooltip: 'Editar',
+                                      onPressed: () {
+                                        print('Editar Postagem');
+                                      }),
+                                  IconButton(
+                                      icon: Icon(Icons.remove_circle,
+                                          color: Colors.red[400]),
+                                      tooltip: 'Deletar',
+                                      onPressed: () {
+                                        print('Deletar Postagem');
+                                      }),
+                                ],
                               ),
                             ),
                             SizedBox(

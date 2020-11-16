@@ -11,6 +11,7 @@ import 'package:foodlab/model/user.dart';
 import 'package:foodlab/notifier/food_notifier.dart';
 import 'package:foodlab/screens/login_signup_page.dart';
 import 'package:foodlab/screens/navigation_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as path;
 
@@ -242,7 +243,44 @@ getFoods(FoodNotifier foodNotifier) async {
 
   if (foodList.isNotEmpty) {
     foodNotifier.foodList = foodList;
-    print("dine");
-    print(foodList[0].userName);
+    print(foodList.toString());
   }
+}
+
+Future<void> deleteFood(BuildContext context) {
+  CollectionReference foodRef = Firestore.instance.collection('foods');
+  foodRef
+      .document('biEwfVtJrJu8Znis0ftg')
+      .delete()
+      .then((value) => print("Post deletado"))
+      .catchError((error) => print("failed to delete user: $error"));
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (BuildContext context) {
+        return NavigationBarPage(
+          selectedIndex: 0,
+        );
+      },
+    ),
+  );
+}
+
+Future<void> updateFood(BuildContext context) {
+  CollectionReference foodRef = Firestore.instance.collection('foods');
+  foodRef
+      .document('biEwfVtJrJu8Znis0ftg')
+      .delete()
+      .then((value) => print("Post deletado"))
+      .catchError((error) => print("failed to delete user: $error"));
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (BuildContext context) {
+        return NavigationBarPage(
+          selectedIndex: 0,
+        );
+      },
+    ),
+  );
 }

@@ -44,13 +44,13 @@ class _ProfilePageState extends State<ProfilePage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(top: 30, right: 10),
+                  padding: EdgeInsets.only(top: 50, right: 20),
                   child: GestureDetector(
                     onTap: () {
                       signOutUser();
                     },
                     child: Icon(
-                      Icons.person_add,
+                      Icons.exit_to_app,
                     ),
                   ),
                 ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gradient_text/gradient_text.dart';
 import 'package:intl/intl.dart';
 
+import '../api/food_api.dart';
+
 class FoodDetailPage extends StatelessWidget {
   final String imgUrl;
   final String imageName;
@@ -49,13 +51,18 @@ class FoodDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Image.network(
-                imgUrl,
-                fit: BoxFit.cover,
-              ),
-            ),
+            GestureDetector(
+                onTap: () {
+                  print('johson');
+                  deleteFood(context);
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.network(
+                    imgUrl,
+                    fit: BoxFit.cover,
+                  ),
+                )),
             SizedBox(
               height: 20,
             ),

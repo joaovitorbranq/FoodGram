@@ -7,10 +7,12 @@ class Food {
   String userUuidOfPost;
   Timestamp createdAt;
   int qtdLike;
+  String documentID;
 
   //User details
   String userName;
   String profilePictureOfUser;
+  String uuid;
 
   Food();
 
@@ -20,6 +22,7 @@ class Food {
     caption = data['caption'];
     createdAt = data['createdAt'];
     userUuidOfPost = data['userUuidOfPost'];
+    documentID = data['documentID'];
   }
 
   Map<String, dynamic> toMap() {
@@ -29,6 +32,7 @@ class Food {
       'caption': caption,
       'createdAt': createdAt,
       'userUuidOfPost': userUuidOfPost,
+      'documentID': documentID
     };
   }
 }
