@@ -212,23 +212,36 @@ class _HomePageState extends State<HomePage> {
                                       onPressed: () {
                                         print('Like na Postagem');
                                       }),
-                                  IconButton(
-                                      icon: Icon(Icons.edit,
-                                          color: Colors.blue[300]),
-                                      tooltip: 'Editar',
-                                      onPressed: () {
-                                        print('Editar Postagem');
-                                      }),
-                                  IconButton(
-                                      icon: Icon(Icons.remove_circle,
-                                          color: Colors.red[400]),
-                                      tooltip: 'Deletar',
-                                      onPressed: () {
-                                        print('Deletar Postagem');
-                                        deleteFood(context,
-                                            aux: foodNotifier
-                                                .foodList[index].documentID);
-                                      }),
+                                  (authNotifier.userDetails.uuid ==
+                                          foodNotifier
+                                              .foodList[index].userUuidOfPost)
+                                      ? IconButton(
+                                          icon: Icon(Icons.edit,
+                                              color: Colors.blue[300]),
+                                          tooltip: 'Editar',
+                                          onPressed: () {
+                                            print('Editar Postagem');
+                                          })
+                                      : SizedBox(
+                                          height: 0,
+                                        ),
+                                  (authNotifier.userDetails.uuid ==
+                                          foodNotifier
+                                              .foodList[index].userUuidOfPost)
+                                      ? IconButton(
+                                          icon: Icon(Icons.remove_circle,
+                                              color: Colors.red[400]),
+                                          tooltip: 'Deletar',
+                                          onPressed: () {
+                                            print('Deletar Postagem');
+                                            deleteFood(context,
+                                                aux: foodNotifier
+                                                    .foodList[index]
+                                                    .documentID);
+                                          })
+                                      : SizedBox(
+                                          height: 0,
+                                        ),
                                 ],
                               ),
                             ),

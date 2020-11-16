@@ -239,7 +239,6 @@ getFoods(FoodNotifier foodNotifier) async {
   await Future.forEach(snapshot.documents, (doc) async {
     Food food = Food.fromMap(doc.data);
     food.documentID = doc.documentID;
-    print(doc.documentID);
     await Firestore.instance
         .collection('users')
         .document(doc.data['userUuidOfPost'])
@@ -257,7 +256,6 @@ getFoods(FoodNotifier foodNotifier) async {
 }
 
 Future<void> deleteFood(BuildContext context, {String aux}) {
-  print(aux);
   CollectionReference foodRef = Firestore.instance.collection('foods');
   foodRef
       .document(aux)
