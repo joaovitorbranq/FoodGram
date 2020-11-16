@@ -63,8 +63,7 @@ class _LoginPageState extends State<LoginPage> {
             keyboardType: TextInputType.emailAddress,
             validator: (String value) {
               if (value.isEmpty) {
-//                return "Email is required";
-                print('Email is required');
+                print('Email é necessário');
               }
               return null;
             },
@@ -101,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
             validator: (String value) {
               if (value.isEmpty) {
 //                return "Password is required";
-                print("Password is required");
+                print("Senha é necessária");
               }
               return null;
             },
@@ -112,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
             cursorColor: Color.fromRGBO(255, 63, 111, 1),
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: 'Password',
+              hintText: 'Senha',
               hintStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Color.fromRGBO(255, 63, 111, 1),
@@ -138,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(30),
             ),
             child: Text(
-              "Log In",
+              "Conectar",
               style: TextStyle(
                 fontSize: 20,
                 color: Color.fromRGBO(255, 63, 111, 1),
@@ -153,10 +152,10 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Not a registered user?',
+              'Ainda não é um usuario registrado?',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 16,
+                fontSize: 13,
               ),
             ),
             SizedBox(
@@ -170,10 +169,10 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: Container(
                 child: Text(
-                  'Sign Up here',
+                  'Registre-se Aqui',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 13,
                       fontWeight: FontWeight.bold),
                 ),
               ),
@@ -201,8 +200,7 @@ class _LoginPageState extends State<LoginPage> {
             keyboardType: TextInputType.emailAddress,
             validator: (String value) {
               if (value.isEmpty) {
-//                return "User name is required";
-                print("User name is required");
+                print("Usuário é necessário");
               }
               return null;
             },
@@ -212,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
             cursorColor: Color.fromRGBO(255, 63, 111, 1),
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: 'User name',
+              hintText: 'Usuário',
               hintStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Color.fromRGBO(255, 63, 111, 1),
@@ -238,8 +236,7 @@ class _LoginPageState extends State<LoginPage> {
           child: TextFormField(
             validator: (String value) {
               if (value.isEmpty) {
-//                return "Email is required";
-                print("Email is required");
+                print("Email é necessario");
               }
               return null;
             },
@@ -277,8 +274,7 @@ class _LoginPageState extends State<LoginPage> {
             controller: _passwordController,
             validator: (String value) {
               if (value.isEmpty) {
-//                return "Password is required";
-                print("Password is required");
+                print("Senha é necessária");
               }
               return null;
             },
@@ -289,7 +285,7 @@ class _LoginPageState extends State<LoginPage> {
             cursorColor: Color.fromRGBO(255, 63, 111, 1),
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: 'Password',
+              hintText: 'Senha',
               hintStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Color.fromRGBO(255, 63, 111, 1),
@@ -300,7 +296,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-        ), //PASSWORD TEXT FIELD
+        ),
         SizedBox(
           height: 20,
         ),
@@ -314,12 +310,11 @@ class _LoginPageState extends State<LoginPage> {
           child: TextFormField(
             validator: (String value) {
               if (value.isEmpty) {
-//                return "Confirm password is required";
-                print("Confirm password is required");
+                print("Confirmação de senha é necessário");
               }
               if (_passwordController.text != value) {
 //                return "Write Correct Password";
-                print("Write Correct Password");
+                print("As senhas não conferem");
               }
               return null;
             },
@@ -328,7 +323,7 @@ class _LoginPageState extends State<LoginPage> {
             cursorColor: Color.fromRGBO(255, 63, 111, 1),
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: 'Confirm Password',
+              hintText: 'Confirme a senha',
               hintStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Color.fromRGBO(255, 63, 111, 1),
@@ -339,7 +334,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-        ), // RE-PASSWORD TEXT FIELD
+        ),
         SizedBox(
           height: 50,
         ),
@@ -354,7 +349,7 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(30),
             ),
             child: Text(
-              "Sign Up",
+              "Registrar",
               style: TextStyle(
                 fontSize: 20,
                 color: Color.fromRGBO(255, 63, 111, 1),
@@ -369,10 +364,10 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Already a registered user?',
+              'Já é um usuário cadastrado?',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 16,
+                fontSize: 13,
               ),
             ),
             SizedBox(
@@ -386,10 +381,10 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: Container(
                 child: Text(
-                  'Log In here',
+                  'Conecte-se aqui',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 13,
                       fontWeight: FontWeight.bold),
                 ),
               ),
@@ -449,7 +444,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 Text(
-                  'Think. Click. Pick',
+                  'Pense. Clique. Escolha',
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontSize: 17,

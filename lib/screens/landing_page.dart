@@ -52,7 +52,7 @@ class _LandingPageState extends State<LandingPage> {
               ),
             ),
             Text(
-              'Think. Click. Pick',
+              'Pense. Clique. Escolha',
               style: TextStyle(
                 fontStyle: FontStyle.italic,
                 fontSize: 17,
@@ -79,7 +79,7 @@ class _LandingPageState extends State<LandingPage> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Text(
-                  "Explore",
+                  "Explorar",
                   style: TextStyle(
                     fontSize: 20,
                     color: Color.fromRGBO(255, 63, 111, 1),
