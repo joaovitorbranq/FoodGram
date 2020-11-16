@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodlab/api/food_api.dart';
+import 'package:foodlab/model/user.dart';
 import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:foodlab/screens/detail_food_page.dart';
 import 'package:foodlab/screens/edit_profile_page.dart';
@@ -8,11 +9,15 @@ import 'package:foodlab/widget/custom_raised_button.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
+  String uid;
+  ProfilePage({this.uid});
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  String uid;
   signOutUser() {
     AuthNotifier authNotifier =
         Provider.of<AuthNotifier>(context, listen: false);
@@ -23,18 +28,21 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    AuthNotifier authNotifier =
+    AuthNotifier _authNotifier =
         Provider.of<AuthNotifier>(context, listen: false);
-
-    getUserDetails(authNotifier);
+    print(_authNotifier.userDetails.displayName);
+    uid = widget.uid;
+    if (uid != null) {
+      getAnotherUserDetails(_authNotifier, uid);
+    } else
+      getUserDetails(_authNotifier);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     AuthNotifier authNotifier =
-        Provider.of<AuthNotifier>(context, listen: false);
-
+        Provider.of<AuthNotifier>(context, listen: true);
     return Scaffold(
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -97,17 +105,21 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(
               height: 40,
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (BuildContext context) {
-                    return EditProfile();
-                  }),
-                );
-              },
-              child: CustomRaisedButton(buttonText: 'Edit Profile'),
-            ),
+            (authNotifier.userDetails.uuid != uid)
+                ? GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                          return EditProfile();
+                        }),
+                      );
+                    },
+                    child: CustomRaisedButton(buttonText: 'Edit Profile'),
+                  )
+                : SizedBox(
+                    height: 0,
+                  ),
             SizedBox(
               height: 20,
             ),

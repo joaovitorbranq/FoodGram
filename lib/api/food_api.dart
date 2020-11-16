@@ -219,6 +219,15 @@ getUserDetails(AuthNotifier authNotifier) async {
       .then((value) => authNotifier.setUserDetails(User.fromMap(value.data)));
 }
 
+getAnotherUserDetails(AuthNotifier authNotifier, String uid) async {
+  await Firestore.instance
+      .collection('users')
+      .document(uid)
+      .get()
+      .catchError((e) => print(e))
+      .then((value) => authNotifier.setUserDetails(User.fromMap(value.data)));
+}
+
 getFoods(FoodNotifier foodNotifier) async {
   QuerySnapshot snapshot = await Firestore.instance
       .collection('foods')
@@ -229,7 +238,8 @@ getFoods(FoodNotifier foodNotifier) async {
 
   await Future.forEach(snapshot.documents, (doc) async {
     Food food = Food.fromMap(doc.data);
-
+    food.documentID = doc.documentID;
+    print(doc.documentID);
     await Firestore.instance
         .collection('users')
         .document(doc.data['userUuidOfPost'])
@@ -243,14 +253,14 @@ getFoods(FoodNotifier foodNotifier) async {
 
   if (foodList.isNotEmpty) {
     foodNotifier.foodList = foodList;
-    print(foodList.toString());
   }
 }
 
-Future<void> deleteFood(BuildContext context) {
+Future<void> deleteFood(BuildContext context, {String aux}) {
+  print(aux);
   CollectionReference foodRef = Firestore.instance.collection('foods');
   foodRef
-      .document('biEwfVtJrJu8Znis0ftg')
+      .document(aux)
       .delete()
       .then((value) => print("Post deletado"))
       .catchError((error) => print("failed to delete user: $error"));

@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Food Lab',
+      title: 'Food Gram',
       theme: ThemeData(
         fontFamily: 'Montserrat',
         primaryColor: Color.fromRGBO(255, 63, 111, 1),

@@ -52,10 +52,7 @@ class FoodDetailPage extends StatelessWidget {
               ),
             ),
             GestureDetector(
-                onTap: () {
-                  print('johson');
-                  deleteFood(context);
-                },
+                onTap: () {},
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Image.network(

@@ -12,11 +12,11 @@ class Food {
   //User details
   String userName;
   String profilePictureOfUser;
-  String uuid;
 
   Food();
 
   Food.fromMap(Map<String, dynamic> data) {
+    print(data);
     name = data['name'];
     img = data['img'];
     caption = data['caption'];

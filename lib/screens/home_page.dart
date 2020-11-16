@@ -5,6 +5,7 @@ import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:foodlab/notifier/food_notifier.dart';
 import 'package:foodlab/screens/detail_food_page.dart';
 import 'package:foodlab/screens/navigation_bar.dart';
+import 'package:foodlab/screens/profile_page.dart';
 import 'package:provider/provider.dart';
 import 'package:gradient_text/gradient_text.dart';
 
@@ -130,7 +131,13 @@ class _HomePageState extends State<HomePage> {
                                     children: <Widget>[
                                       RaisedButton(
                                         onPressed: () {
-                                          print('clicou');
+                                          String _uid = foodNotifier
+                                              .foodList[index].userUuidOfPost;
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ProfilePage(uid: _uid)));
                                         },
                                         color: Colors.white,
                                         child: Text(
@@ -218,6 +225,9 @@ class _HomePageState extends State<HomePage> {
                                       tooltip: 'Deletar',
                                       onPressed: () {
                                         print('Deletar Postagem');
+                                        deleteFood(context,
+                                            aux: foodNotifier
+                                                .foodList[index].documentID);
                                       }),
                                 ],
                               ),
