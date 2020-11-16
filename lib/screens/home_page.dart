@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                           );
                         },
                         child: GradientText(
-                          "FoodLab",
+                          "FoodGram",
                           gradient: LinearGradient(
                             colors: [
                               Color.fromRGBO(255, 138, 120, 1),

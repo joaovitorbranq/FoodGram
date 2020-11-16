@@ -43,7 +43,7 @@ class _LandingPageState extends State<LandingPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'FoodLab',
+              'FoodGram',
               style: TextStyle(
                 fontSize: 60,
                 fontWeight: FontWeight.bold,

@@ -438,7 +438,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Container(
                     padding: EdgeInsets.only(top: 40),
                     child: Text(
-                      'FoodLab',
+                      'FoodGram',
                       style: TextStyle(
                         fontSize: 60,
                         fontWeight: FontWeight.bold,
