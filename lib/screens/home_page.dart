@@ -189,6 +189,10 @@ class _HomePageState extends State<HomePage> {
                                                           .foodList[index]
                                                           .createdAt
                                                           .toDate(),
+                                                  comments: foodNotifier
+                                                      .foodList[index].comments,
+                                                  documentID: foodNotifier
+                                                      .foodList[index].documentID
                                                 );
                                               },
                                             ),

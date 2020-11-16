@@ -248,7 +248,39 @@ getFoods(FoodNotifier foodNotifier) async {
       food.userName = value.data['displayName'];
       food.profilePictureOfUser = value.data['profilePic'];
     }).whenComplete(() => foodList.add(food));
+
+    QuerySnapshot snapshot = await Firestore.instance
+        .collection('foods')
+        .document(doc.documentID)
+        .collection("comments")
+        .getDocuments();
+
+    food.comments = List<Comment>();
+
+    await Future.forEach(snapshot.documents, (doc) async {      
+      //print(doc.data);
+      if (doc.data["text"] != null) {
+        Comment comment = Comment();
+        await Firestore.instance
+            .collection('users')
+            .document(doc.data['userUuidOfPost'])
+            .get()
+            .catchError((e) => print(e))
+            .then((value) {
+              print(value.data);
+              //if (value != null){
+              comment.userProfilePic = value.data['profilePic'];
+              //}          
+        });
+            
+        comment.text = doc.data["text"];
+        food.comments.add(comment);
+        //print(comment);
+      }
+    });
+
   });
+  
 
   if (foodList.isNotEmpty) {
     foodNotifier.foodList = foodList;
@@ -291,4 +323,28 @@ Future<void> updateFood(BuildContext context) {
       },
     ),
   );
+}
+
+uploadComment(String foodUrl, String comment, BuildContext context) async {
+    FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+    print('Uploading comment');
+    CollectionReference commentRef = Firestore.instance.collection('foods').document('$foodUrl').collection('comments');
+    await commentRef
+        .add({"text":comment,
+          "userUuidOfPost":currentUser.uid})
+        .catchError((e) => print(e));
+    
+    print('Comment uploaded succesfully');
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return NavigationBarPage(
+            selectedIndex: 0, 
+          );
+        },
+      ),
+    );
+       
 }
