@@ -9,6 +9,7 @@ import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:foodlab/model/user.dart';
 import 'package:foodlab/notifier/food_notifier.dart';
+import 'package:foodlab/screens/detail_food_page.dart';
 import 'package:foodlab/screens/login_signup_page.dart';
 import 'package:foodlab/screens/navigation_bar.dart';
 import 'package:provider/provider.dart';
@@ -257,7 +258,7 @@ getFoods(FoodNotifier foodNotifier) async {
 
     food.comments = List<Comment>();
 
-    await Future.forEach(snapshot.documents, (doc) async {      
+    await Future.forEach(snapshot.documents, (doc) async {
       //print(doc.data);
       if (doc.data["text"] != null) {
         Comment comment = Comment();
@@ -267,20 +268,18 @@ getFoods(FoodNotifier foodNotifier) async {
             .get()
             .catchError((e) => print(e))
             .then((value) {
-              print(value.data);
-              //if (value != null){
-              comment.userProfilePic = value.data['profilePic'];
-              //}          
+          print(value.data);
+          //if (value != null){
+          comment.userProfilePic = value.data['profilePic'];
+          //}
         });
-            
+
         comment.text = doc.data["text"];
         food.comments.add(comment);
         //print(comment);
       }
     });
-
   });
-  
 
   if (foodList.isNotEmpty) {
     foodNotifier.foodList = foodList;
@@ -306,13 +305,14 @@ Future<void> deleteFood(BuildContext context, {String aux}) {
   );
 }
 
-Future<void> updateFood(BuildContext context) {
+Future<void> updateFood(BuildContext context, Edicao json,
+    {String documentID}) {
   CollectionReference foodRef = Firestore.instance.collection('foods');
   foodRef
-      .document('biEwfVtJrJu8Znis0ftg')
-      .delete()
-      .then((value) => print("Post deletado"))
-      .catchError((error) => print("failed to delete user: $error"));
+      .document(documentID)
+      .setData(json.toMap())
+      .then((value) => print("Post Atualizado"))
+      .catchError((error) => print("failed to atualize user: $error"));
   Navigator.push(
     context,
     MaterialPageRoute(
@@ -326,25 +326,26 @@ Future<void> updateFood(BuildContext context) {
 }
 
 uploadComment(String foodUrl, String comment, BuildContext context) async {
-    FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-    print('Uploading comment');
-    CollectionReference commentRef = Firestore.instance.collection('foods').document('$foodUrl').collection('comments');
-    await commentRef
-        .add({"text":comment,
-          "userUuidOfPost":currentUser.uid})
-        .catchError((e) => print(e));
-    
-    print('Comment uploaded succesfully');
+  FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+  print('Uploading comment');
+  CollectionReference commentRef = Firestore.instance
+      .collection('foods')
+      .document('$foodUrl')
+      .collection('comments');
+  await commentRef
+      .add({"text": comment, "userUuidOfPost": currentUser.uid}).catchError(
+          (e) => print(e));
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return NavigationBarPage(
-            selectedIndex: 0, 
-          );
-        },
-      ),
-    );
-       
+  print('Comment uploaded succesfully');
+
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (BuildContext context) {
+        return NavigationBarPage(
+          selectedIndex: 0,
+        );
+      },
+    ),
+  );
 }

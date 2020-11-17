@@ -13,4 +13,9 @@ class FoodNotifier with ChangeNotifier {
     _foodList = foodList;
     notifyListeners();
   }
+
+  void setFood(List<Food> foodList) {
+    _foodList = foodList;
+    notifyListeners();
+  }
 }

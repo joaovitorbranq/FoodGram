@@ -407,9 +407,9 @@ class _LoginPageState extends State<LoginPage> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromRGBO(255, 138, 120, 1),
-              Color.fromRGBO(255, 114, 117, 1),
-              Color.fromRGBO(255, 63, 111, 1),
+              Color.fromRGBO(120, 200, 255, 1),
+              Color.fromRGBO(100, 170, 240, 1),
+              Color.fromRGBO(120, 63, 210, 1),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -447,8 +447,8 @@ class _LoginPageState extends State<LoginPage> {
                   'Pense. Clique. Escolha',
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
-                    fontSize: 17,
-                    color: Color.fromRGBO(252, 188, 126, 1),
+                    fontSize: 18,
+                    color: Color.fromRGBO(255, 255, 255, 1),
                   ),
                 ),
                 _authMode == AuthMode.Login

@@ -35,7 +35,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     AuthNotifier authNotifier =
         Provider.of<AuthNotifier>(context, listen: false);
-    FoodNotifier foodNotifier = Provider.of<FoodNotifier>(context);
+    FoodNotifier foodNotifier =
+        Provider.of<FoodNotifier>(context, listen: true);
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -60,8 +61,8 @@ class _HomePageState extends State<HomePage> {
                           "FoodGram",
                           gradient: LinearGradient(
                             colors: [
-                              Color.fromRGBO(255, 138, 120, 1),
-                              Color.fromRGBO(255, 63, 111, 1),
+                              Color.fromRGBO(120, 200, 255, 1),
+                              Color.fromRGBO(100, 170, 240, 1),
                             ],
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
@@ -176,24 +177,27 @@ class _HomePageState extends State<HomePage> {
                                             MaterialPageRoute(
                                               builder: (BuildContext context) {
                                                 return FoodDetailPage(
-                                                  imgUrl: foodNotifier
-                                                      .foodList[index].img,
-                                                  imageName: foodNotifier
-                                                      .foodList[index].name,
-                                                  imageCaption: foodNotifier
-                                                      .foodList[index].caption,
-                                                  userName: foodNotifier
-                                                      .foodList[index].userName,
-                                                  createdTimeOfPost:
-                                                      foodNotifier
-                                                          .foodList[index]
-                                                          .createdAt
-                                                          .toDate(),
-                                                  comments: foodNotifier
-                                                      .foodList[index].comments,
-                                                  documentID: foodNotifier
-                                                      .foodList[index].documentID
-                                                );
+                                                    imgUrl: foodNotifier
+                                                        .foodList[index].img,
+                                                    imageName: foodNotifier
+                                                        .foodList[index].name,
+                                                    imageCaption: foodNotifier
+                                                        .foodList[index]
+                                                        .caption,
+                                                    userName: foodNotifier
+                                                        .foodList[index]
+                                                        .userName,
+                                                    createdTimeOfPost:
+                                                        foodNotifier
+                                                            .foodList[index]
+                                                            .createdAt
+                                                            .toDate(),
+                                                    comments: foodNotifier
+                                                        .foodList[index]
+                                                        .comments,
+                                                    documentID: foodNotifier
+                                                        .foodList[index]
+                                                        .documentID);
                                               },
                                             ),
                                           );
@@ -216,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                                       onPressed: () {
                                         print('Like na Postagem');
                                       }),
-                                  (authNotifier.userDetails.uuid ==
+                                  (authNotifier.user.uid ==
                                           foodNotifier
                                               .foodList[index].userUuidOfPost)
                                       ? IconButton(
@@ -224,12 +228,44 @@ class _HomePageState extends State<HomePage> {
                                               color: Colors.blue[300]),
                                           tooltip: 'Editar',
                                           onPressed: () {
-                                            print('Editar Postagem');
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      FoodDetailPage(
+                                                    imgUrl: foodNotifier
+                                                        .foodList[index].img,
+                                                    imageName: foodNotifier
+                                                        .foodList[index].name,
+                                                    imageCaption: foodNotifier
+                                                        .foodList[index]
+                                                        .caption,
+                                                    userName: foodNotifier
+                                                        .foodList[index]
+                                                        .userName,
+                                                    createdTimeOfPost:
+                                                        foodNotifier
+                                                            .foodList[index]
+                                                            .createdAt
+                                                            .toDate(),
+                                                    comments: foodNotifier
+                                                        .foodList[index]
+                                                        .comments,
+                                                    documentID: foodNotifier
+                                                        .foodList[index]
+                                                        .documentID,
+                                                    userUuidOfPost: foodNotifier
+                                                        .foodList[index]
+                                                        .userUuidOfPost,
+                                                    ehEdit: true,
+                                                    index: index,
+                                                  ),
+                                                ));
                                           })
                                       : SizedBox(
                                           height: 0,
                                         ),
-                                  (authNotifier.userDetails.uuid ==
+                                  (authNotifier.user.uid ==
                                           foodNotifier
                                               .foodList[index].userUuidOfPost)
                                       ? IconButton(

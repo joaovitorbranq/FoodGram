@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Comment {
   String text;
-  String userUuidOfPost; 
+  String userUuidOfPost;
   String userProfilePic;
   final DateTime commentedAt;
   //List<Like> likes;
@@ -45,7 +45,7 @@ class Food {
   String caption;
   String userUuidOfPost;
   Timestamp createdAt;
-  List<Comment> comments = List<Comment>();
+  List<dynamic> comments = List<dynamic>();
   int qtdLike;
   String documentID;
 
@@ -53,7 +53,17 @@ class Food {
   String userName;
   String profilePictureOfUser;
 
-  Food();
+  Food(
+      {this.name,
+      this.img,
+      this.caption,
+      this.userUuidOfPost,
+      this.createdAt,
+      this.comments,
+      this.qtdLike,
+      this.documentID,
+      this.userName,
+      this.profilePictureOfUser});
 
   Food.fromMap(Map<String, dynamic> data) {
     //print(data);
@@ -74,7 +84,7 @@ class Food {
       'createdAt': createdAt,
       'userUuidOfPost': userUuidOfPost,
       'documentID': documentID,
-      'comments' : comments,
+      'comments': comments,
     };
   }
 }

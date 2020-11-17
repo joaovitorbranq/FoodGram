@@ -11,9 +11,9 @@ class CustomRaisedButton extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color.fromRGBO(255, 138, 120, 1),
-            Color.fromRGBO(255, 114, 117, 1),
-            Color.fromRGBO(255, 63, 111, 1),
+            Color.fromRGBO(120, 63, 210, 1),
+            Color.fromRGBO(100, 170, 240, 1),
+            Color.fromRGBO(120, 200, 255, 1),
           ],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,

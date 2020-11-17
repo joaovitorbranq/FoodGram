@@ -115,7 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         }),
                       );
                     },
-                    child: CustomRaisedButton(buttonText: 'Edit Profile'),
+                    child: CustomRaisedButton(buttonText: 'Editar Perfil'),
                   )
                 : SizedBox(
                     height: 0,

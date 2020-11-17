@@ -46,10 +46,11 @@ class _ImageCaptureState extends State<ImageCapture> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Post',
+                  'Publicar',
                   style: TextStyle(
-                    color: Color.fromRGBO(255, 138, 120, 1),
-                  ),
+                      color: Color.fromRGBO(120, 200, 255, 1),
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
                 ListView(
@@ -105,7 +106,7 @@ class _ImageCaptureState extends State<ImageCapture> {
                       food.name = value;
                     },
                     decoration: InputDecoration(
-                      labelText: 'Add a Title',
+                      labelText: 'Escolha o nome da postagem',
                     ),
                   ),
                 ),
@@ -120,7 +121,7 @@ class _ImageCaptureState extends State<ImageCapture> {
                       food.caption = value;
                     },
                     decoration: InputDecoration(
-                      labelText: 'Write a caption',
+                      labelText: 'Digite uma legenda',
                     ),
                   ),
                 ),
