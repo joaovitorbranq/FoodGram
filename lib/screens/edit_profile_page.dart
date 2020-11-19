@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:foodlab/api/food_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,12 @@ class _EditProfileState extends State<EditProfile> {
     });
   }
 
+  dynamic transition(context) => showDialog(
+      context: context,
+      builder: (context) => Material(
+          type: MaterialType.transparency,
+          child: Center(child: CircularProgressIndicator())));
+
   @override
   Widget build(BuildContext context) {
     AuthNotifier authNotifier =
@@ -50,7 +57,7 @@ class _EditProfileState extends State<EditProfile> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text('Edit'),
+                  Text('Editar'),
                   GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
@@ -99,7 +106,7 @@ class _EditProfileState extends State<EditProfile> {
                               height: 7,
                             ),
                             Text(
-                              'Select Profile Image',
+                              'Mude sua imagem do perfil',
                               style: TextStyle(fontSize: 11),
                             ),
                           ],
@@ -119,7 +126,7 @@ class _EditProfileState extends State<EditProfile> {
                     _user.displayName = value;
                   },
                   decoration: InputDecoration(
-                    labelText: 'Name',
+                    labelText: 'Nome',
                   ),
                 ),
               ),
@@ -137,7 +144,7 @@ class _EditProfileState extends State<EditProfile> {
                     _user.bio = value;
                   },
                   decoration: InputDecoration(
-                    labelText: 'Bio',
+                    labelText: 'Descrição',
                   ),
                 ),
               ),
@@ -145,8 +152,10 @@ class _EditProfileState extends State<EditProfile> {
                 height: 100,
               ),
               GestureDetector(
-                child: CustomRaisedButton(buttonText: 'Save'),
+                child: CustomRaisedButton(buttonText: 'Salvar'),
                 onTap: () async {
+                  transition(context);
+
                   await uploadProfilePic(_profileImageFile, _user);
 
                   _user.displayName = _editDisplayNameController.text;

@@ -64,9 +64,11 @@ class _ImageCaptureState extends State<ImageCapture> {
                                 borderRadius: BorderRadius.circular(5),
                                 child: Container(
                                   width: MediaQuery.of(context).size.width - 20,
+                                  height:
+                                      MediaQuery.of(context).size.height - 500,
                                   child: Image.file(
                                     _imageFile,
-                                    fit: BoxFit.fitWidth,
+                                    fit: BoxFit.scaleDown,
                                   ),
                                 ),
                               ),
@@ -134,7 +136,7 @@ class _ImageCaptureState extends State<ImageCapture> {
                       _save();
                     },
                     child: CustomRaisedButton(
-                      buttonText: 'Post',
+                      buttonText: 'Postar',
                     ),
                   ),
                 ),

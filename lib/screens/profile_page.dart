@@ -1,3 +1,4 @@
+import 'package:foodlab/screens/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodlab/api/food_api.dart';
@@ -35,12 +36,15 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void didChangeDependencies() {
     AuthNotifier _authNotifier =
-        Provider.of<AuthNotifier>(context, listen: false);
-    if (uid != null) {
-      //transition(context);
-      getAnotherUserDetails(_authNotifier, uid);
-    } else
+        Provider.of<AuthNotifier>(context, listen: true);
+    if (uid == null) {
       getUserDetails(_authNotifier);
+      //transition(context);
+
+    } else
+      getAnotherUserDetails(_authNotifier, uid);
+
+    super.didChangeDependencies();
   }
 
   @override

@@ -16,8 +16,15 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as path;
 
+dynamic transition(context) => showDialog(
+    context: context,
+    builder: (context) => Material(
+        type: MaterialType.transparency,
+        child: Center(child: CircularProgressIndicator())));
+
 //USER PART
 login(User user, AuthNotifier authNotifier, BuildContext context) async {
+  transition(context);
   AuthResult authResult = await FirebaseAuth.instance
       .signInWithEmailAndPassword(email: user.email, password: user.password)
       .catchError((error) => print(error));
@@ -40,6 +47,7 @@ login(User user, AuthNotifier authNotifier, BuildContext context) async {
 
 signUp(User user, AuthNotifier authNotifier, BuildContext context) async {
   bool userDataUploaded = false;
+  transition(context);
   AuthResult authResult = await FirebaseAuth.instance
       .createUserWithEmailAndPassword(
           email: user.email.trim(), password: user.password)
@@ -106,6 +114,7 @@ uploadFoodAndImages(Food food, File localFile, BuildContext context) async {
     print(fileExtension);
 
     var uuid = Uuid().v4();
+    transition(context);
 
     final StorageReference firebaseStorageRef =
         FirebaseStorage.instance.ref().child('images/$uuid$fileExtension');

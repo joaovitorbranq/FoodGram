@@ -220,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                                       onPressed: () {
                                         print('Like na Postagem');
                                       }),
-                                  (authNotifier.user.uid ==
+                                  (authNotifier?.user?.uid ==
                                           foodNotifier
                                               .foodList[index].userUuidOfPost)
                                       ? IconButton(
@@ -265,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                                       : SizedBox(
                                           height: 0,
                                         ),
-                                  (authNotifier.user.uid ==
+                                  (authNotifier?.user?.uid ==
                                           foodNotifier
                                               .foodList[index].userUuidOfPost)
                                       ? IconButton(
