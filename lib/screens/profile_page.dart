@@ -26,16 +26,26 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  dynamic transition(context) => showDialog(
+      context: context,
+      builder: (context) => Material(
+          type: MaterialType.transparency,
+          child: Center(child: CircularProgressIndicator())));
+
   @override
-  void initState() {
+  void didChangeDependencies() {
     AuthNotifier _authNotifier =
         Provider.of<AuthNotifier>(context, listen: false);
-    print(_authNotifier.userDetails.displayName);
-    uid = widget.uid;
     if (uid != null) {
+      //transition(context);
       getAnotherUserDetails(_authNotifier, uid);
     } else
       getUserDetails(_authNotifier);
+  }
+
+  @override
+  void initState() {
+    uid = widget.uid;
     super.initState();
   }
 

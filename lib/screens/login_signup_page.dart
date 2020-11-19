@@ -6,6 +6,8 @@ import 'package:foodlab/screens/landing_page.dart';
 import 'package:foodlab/model/user.dart';
 import 'package:provider/provider.dart';
 
+bool _hidePassword = true;
+
 enum AuthMode { SignUp, Login }
 
 class LoginPage extends StatefulWidget {
@@ -96,10 +98,9 @@ class _LoginPageState extends State<LoginPage> {
             borderRadius: BorderRadius.circular(40),
           ),
           child: TextFormField(
-            obscureText: true,
+            obscureText: _hidePassword,
             validator: (String value) {
               if (value.isEmpty) {
-//                return "Password is required";
                 print("Senha é necessária");
               }
               return null;
@@ -110,6 +111,14 @@ class _LoginPageState extends State<LoginPage> {
             keyboardType: TextInputType.visiblePassword,
             cursorColor: Color.fromRGBO(255, 63, 111, 1),
             decoration: InputDecoration(
+              suffixIcon: IconButton(
+                  icon: Icon(Icons.remove_red_eye),
+                  onPressed: () => setState(() {
+                        if (_hidePassword)
+                          _hidePassword = false;
+                        else
+                          _hidePassword = true;
+                      })),
               border: InputBorder.none,
               hintText: 'Senha',
               hintStyle: TextStyle(
