@@ -52,6 +52,7 @@ class FoodDetailPage extends StatelessWidget {
   TextEditingController _caption = TextEditingController();
   TextEditingController _name = TextEditingController();
 
+
   FoodDetailPage({
     @required this.imgUrl,
     @required this.imageName,
@@ -233,14 +234,14 @@ class FoodDetailPage extends StatelessWidget {
                                       children: <Widget>[
                                         item.userProfilePic != null
                                             ? CircleAvatar(
-                                                radius: 24.0,
+                                                radius: 18.0,
                                                 backgroundImage: NetworkImage(
                                                     item.userProfilePic),
                                                 backgroundColor:
                                                     Colors.transparent,
                                               )
                                             : CircleAvatar(
-                                                radius: 24.0,
+                                                radius: 18.0,
                                                 child: Icon(
                                                   Icons.person,
                                                   color: Colors.grey,
@@ -259,11 +260,27 @@ class FoodDetailPage extends StatelessWidget {
                                                     Radius.circular(5))),
                                             padding: EdgeInsets.all(10.0),
                                             margin:
-                                                EdgeInsets.only(bottom: 10.0),
+                                                EdgeInsets.all(5.0),
                                             //color: Colors.grey.shade200,
                                             child: Text(item.text),
                                           ),
                                         ),
+                                        Column(
+                                          children: [
+                                            IconButton(                                            
+                                              icon: Icon(Icons.favorite_border,
+                                                  color: Colors.red[300]),
+                                              tooltip: 'Like',
+                                              onPressed: () {
+                                                print('Like na Postagem');                                                
+                                            }),
+                                            Text("0",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Color.fromRGBO(255, 138, 120, 1),
+                                            ),)
+                                          ],
+                                        )                                        
                                       ],
                                     ),
                                 ],

@@ -239,12 +239,28 @@ getAnotherUserDetails(AuthNotifier authNotifier, String uid) async {
 }
 
 getFoods(FoodNotifier foodNotifier) async {
+  FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
   QuerySnapshot snapshot = await Firestore.instance
       .collection('foods')
       .orderBy('createdAt', descending: true)
       .getDocuments();
+  
+  QuerySnapshot snapshotLikes = await Firestore.instance
+      .collection('users')
+      .document(currentUser.uid)
+      .collection('likes')      
+      .getDocuments();
 
   List<Food> foodList = [];
+  List<String> foodsLiked = [];
+  String nOfLikes = "";
+  List<bool> isLiked = [];
+  List<Color> likeColor = [];
+
+  await Future.forEach(snapshotLikes.documents, (doc) async {
+    print(doc.data);
+    foodsLiked.add(doc.data["foodUid"]);
+  });
 
   await Future.forEach(snapshot.documents, (doc) async {
     Food food = Food.fromMap(doc.data);
@@ -255,10 +271,21 @@ getFoods(FoodNotifier foodNotifier) async {
         .get()
         .catchError((e) => print(e))
         .then((value) {
-      food.userName = value.data['displayName'];
-      food.profilePictureOfUser = value.data['profilePic'];
-    }).whenComplete(() => foodList.add(food));
+      
+      if(foodsLiked.contains(food.documentID)){
+        isLiked.add(true);
+        likeColor.add(Colors.red);
+      }else{
+        isLiked.add(false);
+        likeColor.add(Colors.grey);
+      }
 
+
+      food.userName = value.data['displayName'];
+      food.profilePictureOfUser = value.data['profilePic'];      
+    }).whenComplete(() => foodList.add(food));
+  
+/*
     QuerySnapshot snapshot = await Firestore.instance
         .collection('foods')
         .document(doc.documentID)
@@ -288,12 +315,86 @@ getFoods(FoodNotifier foodNotifier) async {
         //print(comment);
       }
     });
+    */
   });
+
 
   if (foodList.isNotEmpty) {
     foodNotifier.foodList = foodList;
+    foodNotifier.isLiked = isLiked;
+    foodNotifier.likeColor = likeColor;
+    foodNotifier.nOfLikes = 3;
   }
 }
+
+// START OF BLOCK 
+//Added by Lucio and Branquinho
+likeComment(){
+
+}
+
+uploadComment(String foodUrl, String comment, BuildContext context) async {
+  FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+  print('Uploading comment');
+  CollectionReference commentRef = Firestore.instance
+      .collection('foods')
+      .document('$foodUrl')
+      .collection('comments');
+  await commentRef
+      .add({"text": comment, "userUuidOfPost": currentUser.uid}).catchError(
+          (e) => print(e));
+
+  print('Comment uploaded succesfully');
+
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (BuildContext context) {
+        return NavigationBarPage(
+          selectedIndex: 0,
+        );
+      },
+    ),
+  );
+}
+
+getUserLikes() async{
+  FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+  QuerySnapshot likesRef = await Firestore.instance
+      .collection('users').document(currentUser.uid).collection("likes").getDocuments();
+}
+
+likePressHandler(bool likeState, BuildContext context, String likeRef, String foodRef) async{
+  FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+  //If like, then delete
+  if(likeState){
+    print('Deleting like');
+    CollectionReference likesRef = Firestore.instance.collection('users');
+    likesRef
+      .document(currentUser.uid)
+      .collection("likes")
+      .document(likeRef)
+      .delete()
+      .then((value) => print("Like deletado"))
+      .catchError((error) => print("failed to delete like on post: $error"));
+  }
+  // Else, add like
+  else{
+  print('Uploading like');
+  CollectionReference likeRef = Firestore.instance
+      .collection('users')
+      .document(currentUser.uid)
+      .collection('likes');
+  await likeRef
+      .add({"likedat": "", "foodUid" : foodRef}).catchError(
+          (e) => print(e));
+
+  print('Like added succesfully');
+  }
+}
+// Added by Lucio and Branquinho
+// END OF BLOCK
+
 
 Future<void> deleteFood(BuildContext context, {String aux}) {
   CollectionReference foodRef = Firestore.instance.collection('foods');
@@ -322,31 +423,6 @@ Future<void> updateFood(BuildContext context, Edicao json,
       .setData(json.toMap())
       .then((value) => print("Post Atualizado"))
       .catchError((error) => print("failed to atualize user: $error"));
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (BuildContext context) {
-        return NavigationBarPage(
-          selectedIndex: 0,
-        );
-      },
-    ),
-  );
-}
-
-uploadComment(String foodUrl, String comment, BuildContext context) async {
-  FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-  print('Uploading comment');
-  CollectionReference commentRef = Firestore.instance
-      .collection('foods')
-      .document('$foodUrl')
-      .collection('comments');
-  await commentRef
-      .add({"text": comment, "userUuidOfPost": currentUser.uid}).catchError(
-          (e) => print(e));
-
-  print('Comment uploaded succesfully');
-
   Navigator.push(
     context,
     MaterialPageRoute(

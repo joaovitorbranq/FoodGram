@@ -5,39 +5,24 @@ class Comment {
   String userUuidOfPost;
   String userProfilePic;
   final DateTime commentedAt;
-  //List<Like> likes;
-
-  /*
-  bool isLikedBy(User user) {
-    return likes.any((like) => like.user.name == user.name);
-  }
-
-  void toggleLikeFor(User user) {
-    if (isLikedBy(user)) {
-      likes.removeWhere((like) => like.user.name == user.name);
-    } else {
-      likes.add(Like(user: user));
-    }
-  }
-
-
-   */
+  int likes;
+  
   Comment({
     this.text,
     this.commentedAt,
-    //this.likes,
     this.userUuidOfPost,
     this.userProfilePic,
   });
 }
 
-/*
 class Like {
-  final User user;
+  String userUuidOfLike;
 
-  Like({@required this.user});
+  Like({
+    this.userUuidOfLike
+  });
+
 }
-*/
 
 class Food {
   String name;
