@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     FoodNotifier foodNotifier =
         Provider.of<FoodNotifier>(context, listen: false);
-    getFoods(foodNotifier);    
+    getFoods(foodNotifier);
     super.initState();
   }
 
@@ -215,37 +215,43 @@ class _HomePageState extends State<HomePage> {
                                 children: <Widget>[
                                   IconButton(
                                       icon: Icon(Icons.favorite,
-                                          color: foodNotifier.likeColor[index] ),
+                                          color: foodNotifier.likeColor[index]),
                                       tooltip: 'Like',
                                       onPressed: () {
-
-                                        likePressHandler(foodNotifier.isLiked[index], 
-                                        context,
-                                        foodNotifier.likeRef[index], 
-                                                      foodNotifier
-                                                        .foodList[index]
-                                                        .documentID,
-                                                        foodNotifier.nOfLikesList[index], foodNotifier.likeRef, index);                                      
-                                        setState((){                                          
-                                          if (foodNotifier.isLiked[index]){
+                                        likePressHandler(
+                                            foodNotifier.isLiked[index],
+                                            context,
+                                            foodNotifier.likeRef[index],
+                                            foodNotifier
+                                                .foodList[index].documentID,
+                                            foodNotifier.nOfLikesList[index],
+                                            foodNotifier.likeRef,
+                                            index);
+                                        setState(() {
+                                          if (foodNotifier.isLiked[index]) {
                                             foodNotifier.isLiked[index] = false;
-                                            foodNotifier.likeColor[index] = Colors.grey;
-                                            foodNotifier.nOfLikesList[index] -= 1;
-                                          }
-                                          else{
+                                            foodNotifier.likeColor[index] =
+                                                Colors.grey;
+                                            foodNotifier.nOfLikesList[index] -=
+                                                1;
+                                          } else {
                                             foodNotifier.isLiked[index] = true;
-                                            foodNotifier.likeColor[index] = Colors.red[300];
-                                            foodNotifier.nOfLikesList[index] += 1;
-                                          }                                          
-                                        });                                        
+                                            foodNotifier.likeColor[index] =
+                                                Colors.red[300];
+                                            foodNotifier.nOfLikesList[index] +=
+                                                1;
+                                          }
+                                        });
                                         print('Like na Postagem');
                                       }),
-                                      Text(foodNotifier.nOfLikesList[index].toString(),
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color.fromRGBO(255, 138, 120, 1),
-                                      ),),
+                                  Text(
+                                    foodNotifier.nOfLikesList[index].toString(),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromRGBO(255, 138, 120, 1),
+                                    ),
+                                  ),
                                   (authNotifier?.user?.uid ==
                                           foodNotifier
                                               .foodList[index].userUuidOfPost)
