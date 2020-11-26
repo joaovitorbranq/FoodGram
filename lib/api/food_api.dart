@@ -252,14 +252,17 @@ getFoods(FoodNotifier foodNotifier) async {
       .getDocuments();
 
   List<Food> foodList = [];
-  List<String> foodsLiked = [];
-  String nOfLikes = "";
+  List<String> foodsLiked = [];  
+  List<int> nOfLikesList = [];
   List<bool> isLiked = [];
   List<Color> likeColor = [];
+  List<String> likeRef = [];
+  List<String> likeRef2 = [];
 
   await Future.forEach(snapshotLikes.documents, (doc) async {
     print(doc.data);
     foodsLiked.add(doc.data["foodUid"]);
+    likeRef.add(doc.documentID);
   });
 
   await Future.forEach(snapshot.documents, (doc) async {
@@ -272,12 +275,36 @@ getFoods(FoodNotifier foodNotifier) async {
         .catchError((e) => print(e))
         .then((value) {
       
+      bool ifchecked = false;
+      for (var i=0; i<foodsLiked.length; i++){
+        if (foodsLiked[i] == food.documentID){
+          isLiked.add(true);
+          likeColor.add(Colors.red);
+          likeRef2.add(likeRef[i]);   
+          ifchecked = true;       
+        }
+      }
+      if (!ifchecked){
+        isLiked.add(false);
+        likeColor.add(Colors.grey);
+        likeRef2.add("");
+      }      
+      /*
       if(foodsLiked.contains(food.documentID)){
         isLiked.add(true);
         likeColor.add(Colors.red);
+        likeRef.add("temref");  
       }else{
         isLiked.add(false);
         likeColor.add(Colors.grey);
+        likeRef.add("");
+      }
+      */
+
+      if (doc.data["nOfLikes"] != null){
+        nOfLikesList.add(int.parse(doc.data["nOfLikes"]));
+      }else{
+        nOfLikesList.add(0);
       }
 
 
@@ -322,8 +349,9 @@ getFoods(FoodNotifier foodNotifier) async {
   if (foodList.isNotEmpty) {
     foodNotifier.foodList = foodList;
     foodNotifier.isLiked = isLiked;
-    foodNotifier.likeColor = likeColor;
-    foodNotifier.nOfLikes = 3;
+    foodNotifier.likeColor = likeColor;    
+    foodNotifier.nOfLikesList = nOfLikesList;
+    foodNotifier.likeRef = likeRef2;
   }
 }
 
@@ -358,15 +386,10 @@ uploadComment(String foodUrl, String comment, BuildContext context) async {
   );
 }
 
-getUserLikes() async{
+likePressHandler(bool likeState, BuildContext context, String likeRef, String foodRef, int nOfLikes, List<String> likeRefsInd, int index) async{
   FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-  QuerySnapshot likesRef = await Firestore.instance
-      .collection('users').document(currentUser.uid).collection("likes").getDocuments();
-}
-
-likePressHandler(bool likeState, BuildContext context, String likeRef, String foodRef) async{
-  FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-  //If like, then delete
+  print(likeRef);
+  //If like, then delete     
   if(likeState){
     print('Deleting like');
     CollectionReference likesRef = Firestore.instance.collection('users');
@@ -375,7 +398,7 @@ likePressHandler(bool likeState, BuildContext context, String likeRef, String fo
       .collection("likes")
       .document(likeRef)
       .delete()
-      .then((value) => print("Like deletado"))
+      .then((value) => plusOrLess1Like(foodRef, nOfLikes-1))
       .catchError((error) => print("failed to delete like on post: $error"));
   }
   // Else, add like
@@ -385,12 +408,26 @@ likePressHandler(bool likeState, BuildContext context, String likeRef, String fo
       .collection('users')
       .document(currentUser.uid)
       .collection('likes');
-  await likeRef
-      .add({"likedat": "", "foodUid" : foodRef}).catchError(
-          (e) => print(e));
+  DocumentReference docRef = await likeRef
+      .add({"likedat": "", "foodUid" : foodRef});
+      plusOrLess1Like(foodRef, nOfLikes+1);
+      likeRefsInd[index] = docRef.documentID;
+      print(docRef.documentID);   
 
-  print('Like added succesfully');
+      /*.then((value) => plusOrLess1Like(foodRef, nOfLikes+1))
+      .catchError(
+          (e) => print(e));
+        */
+          
+   print('Like added succesfully');
   }
+}
+
+plusOrLess1Like(String foodRef, nOfLikes) async{
+  CollectionReference foodInstance = Firestore.instance.collection('foods');
+    foodInstance.document(foodRef).updateData(
+      {"nOfLikes" : "$nOfLikes"}
+    );
 }
 // Added by Lucio and Branquinho
 // END OF BLOCK

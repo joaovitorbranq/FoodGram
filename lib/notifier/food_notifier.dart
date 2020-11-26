@@ -5,7 +5,7 @@ import 'package:foodlab/model/food.dart';
 
 class FoodNotifier with ChangeNotifier {
   List<Food> _foodList = [];
-  int nOfLikes = 3;
+  List<int> nOfLikesList = [];
   List<bool> isLiked = [];
   List<Color> likeColor = [];
   List<String> likeRef = [];
