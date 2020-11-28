@@ -267,6 +267,7 @@ getFoods(FoodNotifier foodNotifier) async {
   await Future.forEach(snapshot.documents, (doc) async {
     Food food = Food.fromMap(doc.data);
     food.documentID = doc.documentID;
+    String useruid = doc.data['userUuidOfPost'];
     await Firestore.instance
         .collection('users')
         .document(doc.data['userUuidOfPost'])
@@ -287,17 +288,6 @@ getFoods(FoodNotifier foodNotifier) async {
         likeColor.add(Colors.grey);
         likeRef2.add("");
       }
-      /*
-      if(foodsLiked.contains(food.documentID)){
-        isLiked.add(true);
-        likeColor.add(Colors.red);
-        likeRef.add("temref");  
-      }else{
-        isLiked.add(false);
-        likeColor.add(Colors.grey);
-        likeRef.add("");
-      }
-      */
 
       if (doc.data["nOfLikes"] != null) {
         nOfLikesList.add(int.parse(doc.data["nOfLikes"]));
@@ -309,7 +299,6 @@ getFoods(FoodNotifier foodNotifier) async {
       food.profilePictureOfUser = value.data['profilePic'];
     }).whenComplete(() => foodList.add(food));
 
-/*
     QuerySnapshot snapshot = await Firestore.instance
         .collection('foods')
         .document(doc.documentID)
@@ -319,12 +308,12 @@ getFoods(FoodNotifier foodNotifier) async {
     food.comments = List<Comment>();
 
     await Future.forEach(snapshot.documents, (doc) async {
-      //print(doc.data);
+      print(doc.data);
       if (doc.data["text"] != null) {
         Comment comment = Comment();
         await Firestore.instance
             .collection('users')
-            .document(doc.data['userUuidOfPost'])
+            .document(useruid)
             .get()
             .catchError((e) => print(e))
             .then((value) {
@@ -333,13 +322,12 @@ getFoods(FoodNotifier foodNotifier) async {
           comment.userProfilePic = value.data['profilePic'];
           //}
         });
-
         comment.text = doc.data["text"];
         food.comments.add(comment);
-        //print(comment);
       }
     });
-    */
+    
+
   });
 
   if (foodList.isNotEmpty) {
