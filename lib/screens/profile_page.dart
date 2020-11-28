@@ -1,8 +1,6 @@
-import 'package:foodlab/screens/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodlab/api/food_api.dart';
-import 'package:foodlab/model/user.dart';
 import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:foodlab/screens/detail_food_page.dart';
 import 'package:foodlab/screens/edit_profile_page.dart';
@@ -34,22 +32,14 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Center(child: CircularProgressIndicator())));
 
   @override
-  void didChangeDependencies() {
+  void initState() {
+    uid = widget.uid;
     AuthNotifier _authNotifier =
         Provider.of<AuthNotifier>(context, listen: true);
     if (uid == null) {
       getUserDetails(_authNotifier);
-      //transition(context);
-
     } else
       getAnotherUserDetails(_authNotifier, uid);
-
-    super.didChangeDependencies();
-  }
-
-  @override
-  void initState() {
-    uid = widget.uid;
     super.initState();
   }
 

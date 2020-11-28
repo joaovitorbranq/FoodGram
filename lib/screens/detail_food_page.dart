@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodlab/notifier/food_notifier.dart';
@@ -43,7 +41,7 @@ class FoodDetailPage extends StatelessWidget {
   List<Comment> comments;
   String text_comment;
   bool ehEdit;
-  Edicao editando; // vai dar probs se ba
+  Edicao editando;
   int index;
 
   /////
@@ -51,7 +49,6 @@ class FoodDetailPage extends StatelessWidget {
   ////
   TextEditingController _caption = TextEditingController();
   TextEditingController _name = TextEditingController();
-
 
   FoodDetailPage({
     @required this.imgUrl,
@@ -259,28 +256,31 @@ class FoodDetailPage extends StatelessWidget {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(5))),
                                             padding: EdgeInsets.all(10.0),
-                                            margin:
-                                                EdgeInsets.all(5.0),
+                                            margin: EdgeInsets.all(5.0),
                                             //color: Colors.grey.shade200,
                                             child: Text(item.text),
                                           ),
                                         ),
                                         Column(
                                           children: [
-                                            IconButton(                                            
-                                              icon: Icon(Icons.favorite_border,
-                                                  color: Colors.red[300]),
-                                              tooltip: 'Like',
-                                              onPressed: () {
-                                                print('Like na Postagem');                                                
-                                            }),
-                                            Text("0",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Color.fromRGBO(255, 138, 120, 1),
-                                            ),)
+                                            IconButton(
+                                                icon: Icon(
+                                                    Icons.favorite_border,
+                                                    color: Colors.red[300]),
+                                                tooltip: 'Like',
+                                                onPressed: () {
+                                                  print('Like na Postagem');
+                                                }),
+                                            Text(
+                                              "0",
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Color.fromRGBO(
+                                                    255, 138, 120, 1),
+                                              ),
+                                            )
                                           ],
-                                        )                                        
+                                        )
                                       ],
                                     ),
                                 ],

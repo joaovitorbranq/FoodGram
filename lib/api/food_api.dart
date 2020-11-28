@@ -12,7 +12,6 @@ import 'package:foodlab/notifier/food_notifier.dart';
 import 'package:foodlab/screens/detail_food_page.dart';
 import 'package:foodlab/screens/login_signup_page.dart';
 import 'package:foodlab/screens/navigation_bar.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as path;
 
@@ -244,15 +243,15 @@ getFoods(FoodNotifier foodNotifier) async {
       .collection('foods')
       .orderBy('createdAt', descending: true)
       .getDocuments();
-  
+
   QuerySnapshot snapshotLikes = await Firestore.instance
       .collection('users')
       .document(currentUser.uid)
-      .collection('likes')      
+      .collection('likes')
       .getDocuments();
 
   List<Food> foodList = [];
-  List<String> foodsLiked = [];  
+  List<String> foodsLiked = [];
   List<int> nOfLikesList = [];
   List<bool> isLiked = [];
   List<Color> likeColor = [];
@@ -274,21 +273,20 @@ getFoods(FoodNotifier foodNotifier) async {
         .get()
         .catchError((e) => print(e))
         .then((value) {
-      
       bool ifchecked = false;
-      for (var i=0; i<foodsLiked.length; i++){
-        if (foodsLiked[i] == food.documentID){
+      for (var i = 0; i < foodsLiked.length; i++) {
+        if (foodsLiked[i] == food.documentID) {
           isLiked.add(true);
           likeColor.add(Colors.red);
-          likeRef2.add(likeRef[i]);   
-          ifchecked = true;       
+          likeRef2.add(likeRef[i]);
+          ifchecked = true;
         }
       }
-      if (!ifchecked){
+      if (!ifchecked) {
         isLiked.add(false);
         likeColor.add(Colors.grey);
         likeRef2.add("");
-      }      
+      }
       /*
       if(foodsLiked.contains(food.documentID)){
         isLiked.add(true);
@@ -301,17 +299,16 @@ getFoods(FoodNotifier foodNotifier) async {
       }
       */
 
-      if (doc.data["nOfLikes"] != null){
+      if (doc.data["nOfLikes"] != null) {
         nOfLikesList.add(int.parse(doc.data["nOfLikes"]));
-      }else{
+      } else {
         nOfLikesList.add(0);
       }
 
-
       food.userName = value.data['displayName'];
-      food.profilePictureOfUser = value.data['profilePic'];      
+      food.profilePictureOfUser = value.data['profilePic'];
     }).whenComplete(() => foodList.add(food));
-  
+
 /*
     QuerySnapshot snapshot = await Firestore.instance
         .collection('foods')
@@ -345,21 +342,18 @@ getFoods(FoodNotifier foodNotifier) async {
     */
   });
 
-
   if (foodList.isNotEmpty) {
     foodNotifier.foodList = foodList;
     foodNotifier.isLiked = isLiked;
-    foodNotifier.likeColor = likeColor;    
+    foodNotifier.likeColor = likeColor;
     foodNotifier.nOfLikesList = nOfLikesList;
     foodNotifier.likeRef = likeRef2;
   }
 }
 
-// START OF BLOCK 
+// START OF BLOCK
 //Added by Lucio and Branquinho
-likeComment(){
-
-}
+likeComment() {}
 
 uploadComment(String foodUrl, String comment, BuildContext context) async {
   FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
@@ -386,52 +380,50 @@ uploadComment(String foodUrl, String comment, BuildContext context) async {
   );
 }
 
-likePressHandler(bool likeState, BuildContext context, String likeRef, String foodRef, int nOfLikes, List<String> likeRefsInd, int index) async{
+likePressHandler(bool likeState, BuildContext context, String likeRef,
+    String foodRef, int nOfLikes, List<String> likeRefsInd, int index) async {
   FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
   print(likeRef);
-  //If like, then delete     
-  if(likeState){
+  //If like, then delete
+  if (likeState) {
     print('Deleting like');
     CollectionReference likesRef = Firestore.instance.collection('users');
     likesRef
-      .document(currentUser.uid)
-      .collection("likes")
-      .document(likeRef)
-      .delete()
-      .then((value) => plusOrLess1Like(foodRef, nOfLikes-1))
-      .catchError((error) => print("failed to delete like on post: $error"));
+        .document(currentUser.uid)
+        .collection("likes")
+        .document(likeRef)
+        .delete()
+        .then((value) => plusOrLess1Like(foodRef, nOfLikes - 1))
+        .catchError((error) => print("failed to delete like on post: $error"));
   }
   // Else, add like
-  else{
-  print('Uploading like');
-  CollectionReference likeRef = Firestore.instance
-      .collection('users')
-      .document(currentUser.uid)
-      .collection('likes');
-  DocumentReference docRef = await likeRef
-      .add({"likedat": "", "foodUid" : foodRef});
-      plusOrLess1Like(foodRef, nOfLikes+1);
-      likeRefsInd[index] = docRef.documentID;
-      print(docRef.documentID);   
+  else {
+    print('Uploading like');
+    CollectionReference likeRef = Firestore.instance
+        .collection('users')
+        .document(currentUser.uid)
+        .collection('likes');
+    DocumentReference docRef =
+        await likeRef.add({"likedat": "", "foodUid": foodRef});
+    plusOrLess1Like(foodRef, nOfLikes + 1);
+    likeRefsInd[index] = docRef.documentID;
+    print(docRef.documentID);
 
-      /*.then((value) => plusOrLess1Like(foodRef, nOfLikes+1))
+    /*.then((value) => plusOrLess1Like(foodRef, nOfLikes+1))
       .catchError(
           (e) => print(e));
         */
-          
-   print('Like added succesfully');
+
+    print('Like added succesfully');
   }
 }
 
-plusOrLess1Like(String foodRef, nOfLikes) async{
+plusOrLess1Like(String foodRef, nOfLikes) async {
   CollectionReference foodInstance = Firestore.instance.collection('foods');
-    foodInstance.document(foodRef).updateData(
-      {"nOfLikes" : "$nOfLikes"}
-    );
+  foodInstance.document(foodRef).updateData({"nOfLikes": "$nOfLikes"});
 }
 // Added by Lucio and Branquinho
 // END OF BLOCK
-
 
 Future<void> deleteFood(BuildContext context, {String aux}) {
   CollectionReference foodRef = Firestore.instance.collection('foods');
